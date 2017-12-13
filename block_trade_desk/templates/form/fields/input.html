@@ -1,0 +1,4 @@
+<div class="inputMain">
+    <input id="{{ field.id_for_label }}" name="{{ field.html_name }}" class="inputBox" type="text" {% if field.value %}value="{{ field.value }}"{% endif %}
+           placeholder="{{ field.label }}{% if field.field.required %} *{% endif %}">
+</div>

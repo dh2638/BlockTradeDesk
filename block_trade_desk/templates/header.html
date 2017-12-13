@@ -1,0 +1,59 @@
+{% load i18n %}
+<div class="topHead">
+    <div class="pageTitle"><h1>Blocktrade Desk</h1></div>
+    <div class="pull-right headRight">
+        {% if user.is_authenticated %}
+            <div class="searchMain">
+                <input class="searchInput" type="text" name="" value="" placeholder="Search Anything Here...."/>
+                <button class="searchBtn" type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
+            </div>
+            <div class="profile dropdownSlide">
+                <div class="topProfile dropClick">
+                    <div class="avatar"><span class="simbole">{{ user.first_name|first|upper }}{{ user.last_name|first|upper }}</span></div>
+                    <div class="userName">{{ user.get_full_name|title }}</div>
+                </div>
+                <div class="dropdown_box">
+                    <ul>
+                        <li><a href="{% url 'accounts:profile_edit_view' %}" title="Edit Profile">{% trans 'Edit Profile' %}</a></li>
+                        <li><a href="{% url 'accounts:logout' %}" title="Logout">{% trans 'Logout' %}</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="notificationMain dropdownSlide"><span class="dropClick">
+                <img src="/static/images/globle.svg" alt=""/>
+                <span class="notiDots"></span></span>
+                <div class="dropdown_box">
+                    <ul>
+                        <li><a href="#" title="Test 01">Test 01</a></li>
+                        <li><a href="#" title="Test 02">Test 02</a></li>
+                        <li><a href="#" title="Test 03">Test 03</a></li>
+                        <li class="view_all"><a href="#">View All Notification</a></li>
+                    </ul>
+                </div>
+            </div>
+        {% else %}
+            <ul class="topNav">
+                <li class="dropdownSlide">
+                    <span class="dropClick">Our Products <i class="fa fa-chevron-down"  aria-hidden="true"></i></span>
+                    <!--<i class="fa fa-chevron-up" aria-hidden="true"></i>-->
+                    <ul class="dropdown_box">
+                        <li><a href="#" title="Product 01">Product 01</a></li>
+                        <li><a href="#" title="Product 02">Product 02</a></li>
+                        <li><a href="#" title="Product 03">Product 03</a></li>
+                    </ul>
+                </li>
+
+                <li class="dropdownSlide">
+                    <span class="dropClick">Help <i class="fa fa-chevron-down" aria-hidden="true"></i></span>
+                    <!--<i class="fa fa-chevron-up" aria-hidden="true"></i>-->
+                    <ul class="dropdown_box">
+                        <li><a href="#" title="Test 01">Test 01</a></li>
+                        <li><a href="#" title="Test 02">Test 02</a></li>
+                        <li><a href="#" title="Test 03">Test 03</a></li>
+                    </ul>
+                </li>
+            </ul>
+        {% endif %}
+    </div>
+</div>
+<div class="clearfix"></div>

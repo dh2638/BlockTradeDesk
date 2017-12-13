@@ -1,0 +1,215 @@
+{% extends 'base.html' %}
+{% load staticfiles utility %}
+{% block content %}
+    <div class="clearfix"></div>
+    <div class="subHead">
+        <div class="container">
+            <div class="buttonMain pull-left"><a class="btn trans" href="#" title="MANAGE YOUR DIGITAL CURRENCY">MANAGE
+                YOUR DIGITAL CURRENCY</a></div>
+            <div class="buttonMain pull-right">
+                <a class="btn active trans" href="{% url 'dashboard:index' %}" title="Dashboard">Dashboard</a> <a
+                    class="btn trans" href="#" title="Settings">Settings</a></div>
+        </div>
+    </div>
+    <div class="clearfix"></div>
+    <section class="midPart">
+        <div class="container">
+            <div class="whiteBox">
+                <div class="whiteBoxHead">
+                    <div class="pull-right">
+                        <div class="actionMain dropdownSlide">
+                            <div class="dropClick actionBtn trans">
+                                <img src="{% static 'images/dark-dots.svg' %}" alt=""/>
+                            </div>
+                            <div class="dropdown_box">
+                                <ul>
+                                    <li><a href="#" title="Test">Test</a></li>
+                                    <li><a href="#" title="Test 02">Test 02</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="coinList">
+                        <ul>
+                            {% for currency in currencies %}
+                                <li {% if forloop.first %}class="coinTabActive"{% endif %}
+                                    data-coin="{{ currency.name|lower }}">
+                                    <span>{{ currency.name }}</span> {{ currency.rates_per_hour.all|first }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+
+                </div>
+                {% for currency in currencies %}
+                    <!-- bitcoin -->
+                    {% with currency.get_per_month as data %}
+                    <div id="{{ currency.name|lower }}"
+                         class="boxInner {% if forloop.first %}coinTabActive{% endif %} coinTabBody">
+                        <div class="priceBoxes">
+                            <div class="priceBox"><strong>${{ currency.rates_per_hour.all|first }}</strong>
+                                <span>{{ currency.name|upper }} PRICE</span></div>
+                            <div class="priceBox {% if data.is_negative %}downArrow{% else %}upArrow{% endif %}"><strong>$ {{ data.last_rate }}</strong> <span>{{ data.duration }} (USD)</span>
+                            </div>
+                            <div class="priceBox {% if data.is_negative %}downArrow{% else %}upArrow{% endif %}"><strong>{{ data.percent }}%</strong> <span>{{ data.duration }} (%)</span></div>
+                        </div>
+                        <div class="chartMain">
+                            <canvas id="{{ currency.name|lower }}-chart" class="barChart"></canvas>
+                        </div>
+                    </div>
+                    {% endwith %}
+                {% endfor %}
+
+            </div>
+            <div class="whiteBox secBox">
+                <div class="actionMain dropdownSlide">
+                    <div class="dropClick paging actionBtn trans"><span>Past 7 days</span> <img
+                            src="{% static 'images/dark-dots.svg' %}" alt=""/></div>
+                    <div class="dropdown_box">
+                        <ul>
+                            <li><a href="#" title="Test">Test</a></li>
+                            <li><a href="#" title="Test 02">Test 02</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="secTitleMain">
+                    <div class="secTitle">Your Portfolio</div>
+                    <div class="subTitle">Total Value <strong>$ {{ user.get_total_balance }}</strong></div>
+                </div>
+
+                <ul class="tableRow">
+                    {% for currency in user.user_currencies.all %}
+                        <li>
+                            <div class="col-1 coinName">{{ currency.currency }}</div>
+                            <div class="col-2"><span
+                                    class="priceTag">$ {% multiply currency.amount currency.currency.get_current_rate %}</span>{{ currency.amount }}
+                            </div>
+                        </li>
+                    {% endfor %}
+                </ul>
+
+            </div>
+
+            <div class="whiteBox secBox">
+                <div class="actionMain dropdownSlide">
+                    <div class="dropClick paging actionBtn trans"><span>Past 7 days</span> <img
+                            src="{% static 'images/dark-dots.svg' %}" alt=""/></div>
+                    <div class="dropdown_box">
+                        <ul>
+                            <li><a href="#" title="Test">Test</a></li>
+                            <li><a href="#" title="Test 02">Test 02</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="secTitleMain">
+                    <div class="secTitle">Recent Transaction</div>
+                </div>
+
+                <ul class="tabList">
+                    <li class="tabActive" data-type="Sold">Sold</li>
+                    <li data-type="bought">Bought</li>
+                </ul>
+                <div class="tabMain">
+                    {% regroup user.user_transactions.all|dictsort:"transaction_type" by transaction_type as transaction_list %}
+                    <div id="Sold" class="tabBody tableRow tabActive fadeIndiv">
+                        <table class="tableMain" width="100%">
+                            {% for transaction in transaction_list %}
+                                {% if transaction.grouper == "SOLD" %}
+                                    {% for data in transaction.list %}
+                                        <tr>
+                                            <td width="150px" valign="middle" class="nameField">{{ data.created }}</td>
+                                            <td width="100px" valign="middle"><span
+                                                    class="simbole">{{ data.currency.code }}</span></td>
+                                            <td width="350px" valign="middle"><p>{{ data.message }}</p></td>
+                                            <td valign="middle"><span class="table_price">{{ data.amount }}</span><span
+                                                    class="wasPrice">-$ {% multiply data.amount data.currency.get_current_rate %}</span>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                {% endif %}
+                            {% endfor %}
+                        </table>
+                        <div class="totleRow">Total Balance <span class="price">$849.495</span></div>
+                    </div>
+                    <div id="bought" class="tabBody tableRow">
+                        <table class="tableMain" width="100%">
+                            {% for transaction in transaction_list %}
+                                {% if transaction.grouper == "BOUGHT" %}
+                                    {% for data in transaction.list %}
+                                        <tr>
+                                            <td width="150px" valign="middle" class="nameField">{{ data.created }}</td>
+                                            <td width="100px" valign="middle">
+                                                <span class="simbole">{{ data.currency.code }}</span></td>
+                                            <td width="350px" valign="middle"><p>{{ data.message }}</p></td>
+                                            <td valign="middle"><span class="table_price">{{ data.amount }}</span><span
+                                                    class="wasPrice">-$34.44</span></td>
+                                        </tr>
+                                    {% endfor %}
+                                {% endif %}
+                            {% endfor %}
+
+                        </table>
+                        <div class="totleRow">Total Balance <span class="price">$849.495</span></div>
+
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </section>
+{% endblock %}
+{% block js %}
+    <script type="text/javascript" src="{% static "js/Chart.min.js" %}"></script>
+    <script>
+        var graph = {
+            {% for currency in currencies %}
+                '{{ currency.name|lower }}': {
+                    {% with currency.get_per_month as data %}
+                        'labels': [{% for rate in data.rates %}
+                            '{{ rate.created.date }}',
+                        {% endfor %}],
+                        'data': [{% for rate in data.rates %}
+                            {{ rate.price }},
+                        {% endfor %}]
+                    {% endwith %}
+                },
+            {% endfor %}
+        };
+        function chart(labels, data, id) {
+            var ctx = document.getElementById(id).getContext('2d');
+            var chart = new Chart(ctx, {
+                // The type of chart we want to create
+                type: 'bar',
+                options: {
+                    responsive: true,
+                    legend: {
+                        position: 'top',
+                    },
+                    title: {
+                        display: true,
+                        text: 'Chart.js Bar Chart'
+                    }
+                },
+                // The data for our dataset
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: id,
+                        backgroundColor: '#bb25ba',
+                        borderColor: '',
+                        data: data
+                    }
+                    ]
+                },
+            });
+        }
+        $(document).ready(function () {
+            Object.keys(graph).forEach(function (key) {
+                var labels = graph[key].labels;
+                var data = graph[key].data;
+                var id = key + '-chart';
+                chart(labels, data, id);
+            });
+        })
+    </script>
+{% endblock %}

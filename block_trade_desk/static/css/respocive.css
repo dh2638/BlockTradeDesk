@@ -1,0 +1,184 @@
+/* css only for hover effect all hover effect must write in this Media query */
+@media only screen and (min-width: 1200px) {
+.submiteBtn:hover{background:#4a1160}
+.dropdown_box li a:hover{color:#841eab; background:#f1f1f1}
+.loginBottom a:hover, .forgotText a:hover{color:#4a1160}
+.notificationMain .dropClick:hover:before{opacity:0.2; visibility:visible}
+.btn:hover{background:#49115f; color:#fff;}
+.coinList ul li:hover{background: #49115f;color: #fff;}
+.coinList ul li:hover span{color: #fff;}
+.actionBtn:hover{background:#f1f1f1;}
+.container{padding:0 20px;}
+.whiteBox{padding:20px;}
+}
+
+/* Custome responsive css start from here */
+
+/* common css for below screen 1199 */
+@media only screen and (max-width: 1199px) {
+.searchMain .searchInput{width:280px;}
+.coinList ul li{font-size:24px;}
+.priceBoxes{margin:0 -5px 10px -5px}
+.priceBox{min-width:inherit; padding:20px; height: auto; margin:0 5px;}
+.priceBox strong{font-size:46px; line-height:50px;}
+.priceBox span{font-size:20px;}
+.upArrow:before{opacity:0.3; top:5px; left:10px;}
+	}
+
+/* common css for below screen 991 */
+@media only screen and (max-width: 991px) {
+.priceBox {min-width: inherit; padding: 10px; height: auto; margin: 0 2px;}		
+.priceBox strong{font-size: 34px;line-height: 38px;}
+.coinList ul li{padding:15px; font-size:20px;}
+.secTitle{font-size:34px; display:block; width:100%;}
+
+.paging.actionBtn{font-size:22px; line-height:24px;}
+.tableRow li{padding-left:10px}
+.tableRow li .coinName{font-size:22px; line-height:24px;}
+.tableRow li .col-2{font-size:22px; line-height:24px;}
+.tableRow li .priceTag{font-size:22px; line-height:24px;}
+.tableRow li .col-2, .tableRow li .col-1{padding:5px;}
+.secTitle{font-size:28px; } 
+.secBox .secTitleMain{padding-left:15px; padding-bottom:10px;}
+.tabList li{font-size:26px;}
+.tabList li:after{height:6px;}
+.tabList{padding-left:0;}
+.simbole{font-size:26px;}
+.btn{font-size:16px;}
+.paging.actionBtn img{width:6px;}
+
+
+
+.notificationMain{margin:4px 10px 0 14px;}
+.profile{margin:0; padding:0 5px;}
+.profile .userName{min-width:inherit; padding-right:10px; display:none}
+.profile .avatar{width:44px;}
+.notificationMain .dropClick{width:30px;}
+.notificationMain .dropClick img{width:26px;}
+.notiDots{width:6px; height:6px;}
+.tableMain tr td:first-child{padding-left:15px;}
+.totleRow{    font-size: 21px; line-height: 55px;}
+}
+
+
+/* common css for below screen 767 */
+@media only screen and (max-width: 767px) {
+	.priceBoxes{margin-bottom:0}
+.midPart{width:100%; overflow:hidden}	
+.topHead .pageTitle{font-size:24px; }
+.topNav li{margin:0 15px;}
+.topNav li .dropClick{font-size:18px; line-height:24px;}
+.topNav li .dropClick i{font-size:14px;}	
+.loginBox{margin-top:30px; margin-bottom:15px;}
+.loginTitle{font-size:24px;}
+.loginInner{padding:20px 30px;	}
+.loginBottom{font-size:18px; padding:15px;}
+.inputMain .inputBox{font-size:22px;}
+.submiteBtn{font-size:24px;}
+.searchMain .searchInput {width: 234px;}
+
+.priceBox{width:100%; margin-bottom:15px;}
+.priceBox strong{font-size:25px; line-height:32px;}
+.coinList ul li{padding: 15px 10px;font-size: 18px;}
+.btn{padding-left:8px; padding-right:8px;    font-size: 14px;}
+.wasPrice, .table_price{font-size:22px;}
+.simbole{font-size:22px; width:50px; height:50px; line-height:50px;}
+.tableMain tr td{padding:5px 10px;}
+.tableMain tr td p{line-height:20px; font-size:18px;}
+.tableMain tr td:first-child{padding-left:8px;}
+.nameField{font-size:20px;}
+.tabList li {font-size: 24px; line-height:26px;}
+.totleRow{    font-size: 16px; line-height: 50px;}
+.subHead{padding:15px 0}
+
+	}
+@media only screen and (max-width: 600px) {
+	.coinList ul li{
+    padding: 15px 10px;
+    font-size: 16px;
+}
+.topHead .pageTitle{width:100%; text-align:center; margin-bottom:15px;}
+.headRight{width:100%; margin:0}
+.loginBg .headRight{text-align:center}
+.headRight .searchMain{float:left}
+.headRight .notificationMain {float:right; }
+.headRight .profile {float:right;}
+.actionBtn {display:none}	
+.headRight .topNav{display:inline-block; text-align:left;}	
+	}
+
+@media only screen and (max-width: 567px) {
+.secTitle{font-size:24px; line-height:26px;}
+.subHead .buttonMain.pull-left	.btn {width:100%; margin-bottom:10px;}
+.buttonMain{text-align:center; width:100%; }
+.subHead .buttonMain.pull-right{width:100%;}
+.midPart .container{padding:0;}
+.whiteBox{margin-top:0; float:left;}
+.whiteBox:nth-child(even){background:#f1f1f1;}
+.coinList ul li{border-bottom:1px solid #e2e2e2;}
+.coinList ul li{width:33.33%;}
+.chartMain{margin:0 -15px; width:auto}
+.coinList ul li{line-height:22px;}	
+	}
+
+/* common css for below screen 479 */
+@media only screen and (max-width: 479px) {
+.topHead .pageTitle{display:block; text-align:center; margin-bottom:10px; text-align:center; width:100%;}
+.headRight{width:100%; text-align:center; margin-right:0}
+
+.loginBox{margin-top:60px;}
+.loginBox .loginInner{padding:15px;}	
+.loginTitle{font-size:20px; line-height:24px; margin-bottom:15px;}	
+.inputMain .inputBox{height:50px; font-size:18px; padding:5px 10px;}
+.submiteBtn{height:50px; font-size:20px;}
+.forgotText{padding-top:0px; font-size:16px;}
+.loginBottom{padding:10px; font-size:18px;}
+.loginBottom a{clear:both; display:inline-block}
+.loginMid{min-height: calc(100% - 156px);}
+.inputMain .passIcon{width:23px; height:18px; background-size:100% 100%; right:10px;}
+.passwField.inputMain .inputBox {padding-right: 34px;}
+.tableMain tr:nth-child(odd){background:#f9f9f9}
+.tableMain tr td {
+    padding:10px;
+    display: inline-block;
+    width: 50%;
+    height: 80px;
+    vertical-align: top;
+}
+	}
+
+@media only screen and (max-width: 370px) {
+.loginTitle{font-size:18px;}
+.inputMain .inputBox{font-size:16px;}
+.submiteBtn{font-size:18px;}
+.loginBox{margin-top:25px;}	
+
+.headRight .searchMain{width:100%; margin-bottom:15px;}
+.headRight .searchMain .searchInput{width:100%;}
+.headRight .notificationMain{margin-top:6px; margin-right:15px;}
+
+	
+	}
+
+/* common css for screen size between 480 to 767 */
+@media only screen and (min-width: 480px) and (max-width: 767px) {}
+
+
+/* common css for screen size between 568 to 767 */
+@media only screen and (min-width: 568px) and (max-width: 767px) {}
+
+
+/* common css for screen size between 600 to 767 */
+@media only screen and (min-width: 600px) and (max-width: 767px) {}
+
+
+/* common css for screen size between 768 to 1199 */
+@media only screen and (min-width: 768px) and (max-width: 1199px) {}
+
+
+/* common css for screen size between 768 to 1023 */
+@media only screen and (min-width: 768px) and (max-width: 991px) {}
+
+
+/* common css for screen size between 1024 to 1199 */
+@media only screen and (min-width: 992px) and (max-width: 1199px) {}

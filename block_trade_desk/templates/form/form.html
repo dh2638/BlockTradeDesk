@@ -1,0 +1,8 @@
+{% load utility %}
+{% for hidden in form.hidden_fields %}
+    {{ hidden }}
+{% endfor %}
+{% for field in form.visible_fields %}
+    {% get_template_for_field field as template_name %}
+    {% include template_name %}
+{% endfor %}

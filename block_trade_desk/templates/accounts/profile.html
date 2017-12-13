@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% block body_class %}loginBg{% endblock %}
+{% block content %}
+    <div class="loginMid">
+        <div class="loginBox">
+            <div class="loginBottom">
+                 {% trans 'First Name' %} : {{ user.first_name }}
+                <br>
+                 {% trans 'Last Name' %} : {{ user.last_name }}
+            </div>
+            <div class="loginBottom">
+                {% trans 'Need to update profile ?' %}
+                <a class="trans" href="{% url 'accounts:profile_edit_view' %}">{% trans 'Click Here' %}</a>
+            </div>
+        </div>
+
+    </div>
+{% endblock %}
+{% block js %}
+    <script>
+        $.DjangoAjaxHandler2({
+            submitBtn: '#{{ form.form_btn_id }}',
+            form_selector: '#{{ form.form_id }}'
+        })
+    </script>
+{% endblock %}

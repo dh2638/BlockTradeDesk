@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% block body_class %}loginBg{% endblock %}
+{% block content %}
+    <div class="loginMid">
+        <div class="loginBox">
+            <div class="loginInner">
+                <div class="loginTitle">{% trans 'Sign in to Blocktrade Desk' %}</div>
+                <form action="" method="post" id="{{ form.form_id }}" >
+                    {{ form.errors }}
+                    {% csrf_token %}
+                    {% include 'form/form.html' %}
+                    <div class="inputMain">
+                        <input id="{{ form.form_btn_id }}" class="trans submiteBtn" type="submit" value="sign in"/>
+                    </div>
+                    <div class="forgotText">{% trans 'Forgot email/username or password?' %}
+                        <a class="trans" href="{% url 'accounts:password_reset' %}">{% trans 'Click Here!' %}</a>
+                    </div>
+                </form>
+            </div>
+            <div class="loginBottom">{% trans 'New to Blocktrade Desk?' %}
+                <a class="trans" href="{% url 'accounts:signup' %}">{% trans 'Sign up now!' %}</a>
+            </div>
+        </div>
+
+    </div>
+{% endblock %}
+{% block js %}
+    <script>
+        $.DjangoAjaxHandler2({
+            submitBtn: '#{{ form.form_btn_id }}',
+            form_selector: '#{{ form.form_id }}'
+        })
+    </script>
+{% endblock %}

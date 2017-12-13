@@ -1,0 +1,188 @@
+* { padding: 0; margin: 0; border: none; -moz-box-sizing: border-box; -ms-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box; }
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video { margin: 0; padding: 0; border: 0; font-size: 100%; font: inherit; vertical-align: baseline; }
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section { display: block; }
+body { line-height: 1; }
+ol, ul { list-style: none; }
+blockquote, q { quotes: none; }
+blockquote:before, blockquote:after, q:before, q:after { content: ''; content: none; }
+table { border-collapse: collapse; border-spacing: 0; }
+@font-face { font-family: 'gotham_boldregular'; src: url('../fonts/gotham_bold_regular-webfont.woff2') format('woff2'),  url('../fonts/gotham_bold_regular-webfont.woff') format('woff'); font-weight: normal; font-style: normal; }
+@font-face { font-family: 'Conv_GOTHAM BOOK REGULAR'; src: url('../fonts/GOTHAM BOOK REGULAR.eot'); src: local('ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã¢â‚¬Â¹Ãƒâ€¦Ã¢â‚¬Å“ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Âº'), url('../fonts/GOTHAM BOOK REGULAR.woff') format('woff'), url('../fonts/GOTHAM BOOK REGULAR.ttf') format('truetype'), url('../fonts/GOTHAM BOOK REGULAR.svg') format('svg'); font-weight: normal; font-style: normal; }
+@font-face { font-family: 'keep_calm_medregular'; src: url('../fonts/keepcalm-medium-webfont.woff2') format('woff2'),  url('../fonts/keepcalm-medium-webfont.woff') format('woff'); font-weight: normal; font-style: normal; }
+::-webkit-input-placeholder {
+color:inherit;
+opacity:1;
+}
+::-moz-placeholder {
+color: inherit;
+opacity:1;
+}
+:-ms-input-placeholder {
+color:inherit;
+opacity:1;
+}
+:-moz-placeholder {
+color: inherit;
+opacity:1;
+}
+input:focus, button:focus, a:focus { outline: none }
+a:hover, a:focus, a:active { text-decoration: none; color: inherit }
+img { max-width: 100%; max-height: 100%; }
+.wrapper { width: 100%; max-width: 1920px; margin: auto;overflow:hidden height: 100%; }
+.trans { -moz-transition: all 0.4s ease-in-out; -ms-transition: all 0.4s ease-in-out; -webkit-transition: all 0.4s ease-in-out; transition: all 0.4s ease-in-out; }
+body { display: block; width: 100%; min-height: 100%; font-family: 'Conv_GOTHAM BOOK REGULAR'; font-size: 16px; line-height: 20px; color: #000; padding: 0; margin: 0; border: none; position: relative; background: #f7f7f7 }
+.loginBg { display: block; width: 100%; background: url(../images/login-bg.jpg) no-repeat center bottom #6f109b; background-size: cover; min-height:100vh;}
+.topHead { float: left; width: 100%; border-bottom: 1px solid rgba(255, 255, 255, 0.20); padding: 15px; background: #841eab; }
+.topHead .pageTitle { float: left; width: auto; font-family: 'gotham_boldregular'; font-size: 26px; line-height: 40px; font-weight: 700; color: #fff; text-transform: uppercase; padding:
+}
+.headRight { margin-right: -15px; }
+.subNav { position: absolute; display: none; }
+.topNav li { float: left; width: auto; position: relative; margin: 0 25px; }
+.dropdownSlide{position:relative;}
+.topNav li .dropClick { display: inline-block; width: 100%; font-size: 22px; line-height: 26px; color: #fff; font-weight: 500; cursor: pointer; font-family: 'Conv_GOTHAM BOOK REGULAR'; }
+.topNav li .dropClick i { font-size: 17px; }
+.dropdown_box { display: block; min-width: 160px; border: 1px solid #E6E6E6; opacity: .3; border-radius: 0 0 3px 3px; -webkit-transform-origin: top; -moz-transform-origin: top; -ms-transform-origin: top; -o-transform-origin: top; transform-origin: top; -webkit-transform: scale(1, 0); -moz-transform: scale(1, 0); -ms-transform: scale(1, 0); -o-transform: scale(1, 0); transform: scale(1, 0); -webkit-transition: all .2s linear; -o-transition: all .2s linear; -moz-transition: all .2s linear; transition: all .2s linear; -webkit-box-shadow: 0 1px 3px rgba(0,0,0,.1); box-shadow: 0 1px 3px rgba(0,0,0,.1); left: auto!important; right: 0; position: absolute; top: 100%; left: 0; z-index: 12; padding: 0; margin: 18px 0 0 0; background-color: #FFF; }
+.dropdown_box:before {content: "";/* border-bottom: 10px solid #fff; *//* border-left: 10px solid transparent; *//* border-right: 10px solid transparent; */position: absolute;right: 15px;top: -7px;width: 14px;height: 14px;background: #fff;transform: rotate(45deg);border-left: 1px solid #E6E6E6;border-top: 1px solid #E6E6E6;}
+.openBox > .dropdown_box { -webkit-transform: scale(1, 1); -moz-transform: scale(1, 1); -ms-transform: scale(1, 1); -o-transform: scale(1, 1); transform: scale(1, 1); opacity: 1; }
+.dropdown_box li { display: block; width: 100%; font-size: 16px; line-height: 26px; padding: 0; margin: 0 }
+.dropdown_box li a { display: block; width: 100%; padding: 5px 15px; text-decoration: none; border-bottom: 1px solid #f1f1f1; color: #333; }
+.dropdown_box li:last-child a { border-bottom: none }
+.footMain { display: block; float: left; width: 100%; text-align: center; padding: 15px; margin-top: 20px; color: #9900ab; font-family: 'keep_calm_medregular'; }
+.loginBg .footMain { color: #fff; border-top: 1px solid rgba(255, 255, 255, 0.20); }
+.copyText { font-family: arial }
+.loginMid { display: block; width: 100%; min-height: calc(100% - 150px); position: relative; text-align: center; padding: 0 15px; }
+.loginBox { display: inline-block; margin: 80px auto 40px auto; width: 600px; max-width: 100%; background: #fff; box-shadow: 5px 1px 0 rgba(0, 0, 0, 0.32); border-radius: 6px; }
+.loginInner { display: block; width: 100%; padding: 30px 60px; }
+.loginTitle { display: block; text-align: center; font-size: 28px; line-height: 32px; color: #333333; margin-bottom: 30px; }
+.inputMain { display: block; width: 100%; position: relative; margin-bottom: 15px; position: relative }
+.inputMain .inputBox { display: block; width: 100%; position: relative; height: 75px; line-height: 30px; font-size: 20px; color: #666; background: #f5f5f5; box-shadow: inset 0 2px 3px rgba(0, 0, 0, 0.05); padding: 5px 16px; border: 1px solid transparent; border-radius: 4px; }
+.passwField.inputMain .inputBox { padding-right: 60px; }
+.inputMain .inputBox:focus { border-color: #8019a9 }
+.inputMain .inputBox::-webkit-input-placeholder {
+color: #999999;
+opacity:1;
+}
+.inputMain .inputBox::-moz-placeholder {
+color: #999999;
+opacity:1;
+}
+.inputMain .inputBox:-ms-input-placeholder {
+color: #999999;
+opacity:1;
+}
+.inputMain .inputBox:-moz-placeholder {
+color: #999999;
+opacity:1;
+}
+.inputMain .passIcon { position: absolute; width: 33px; height: 29px; font-size: 33px; color: #c4c4c4; /*background:url(../images/pass_icon.png) no-repeat left top;*/ position: absolute; right: 20px; top: 0; bottom: 0; margin: auto; z-index: 12 }
+.inputMain .passIcon.passShow {/*background-image:url(../images/showpass.png);*/ }
+.passIcon.fa-eye:before { content: "\f06e"; }
+.submiteBtn { display: block; width: 100%; height: 76px; color: #ffffff; font-size: 26px; line-height: 30px; background: #841eab; border-radius: 4px; text-transform: uppercase; box-shadow: 4px 4px 30px rgba(0, 0, 0, 0.3); cursor: pointer; }
+.forgotText { display: block; text-align: center; font-size: 18px; line-height: 24px; color: #666666; padding-top: 24px; }
+.forgotText a { color: #841eab; }
+.loginBottom { display: block; width: 100%; text-align: center; border-top: 5px solid #eeeeee; padding: 24px 20px; color: #333333; font-size: 22px; line-height: 24px; }
+.loginBottom a { color: #841eab; }
+/* Deshbord start */
+.searchMain { float: left; width: auto; position: relative; position: relative }
+.searchMain .searchInput {float: left;width: 290px;max-width: 100%;height: 40px;border: 1px solid rgba(241, 241, 241, 0.75);background: none;border-radius: 30px;color: #fff;padding: 4px 36px 4px 14px;}
+.searchMain .searchBtn { position: absolute; top: 0; bottom: 0; font-size: 20px; color: #fff; right: 15px; height: 20px; margin: auto; background: none }
+
+.notificationMain{float: right;width:auto;margin:0 15px;position:relative;} 
+.notificationMain .dropClick{width:50px;height:100%;float:left;cursor:pointer;position:relative;z-index:12;text-align:center;margin-top: 7px;}
+.notificationMain .dropClick:before{content:""; top:-20px; bottom:-20px; background:#000; opacity:0.2; position:absolute; z-index:-1; left:-10px; right:-10px; opacity:0; visibility:hidden; -moz-transition:all 0.4s ease-in-out; -ms-transition:all 0.4s ease-in-out; -webkit-transition:all 0.4s ease-in-out; transition:all 0.4s ease-in-out;}
+.openBox.notificationMain .dropClick:before{opacity:0.2; visibility:visible}
+.notificationMain .dropdown_box{width:300px; margin-right:-15px;}
+.notificationMain .dropdown_box .view_all{background:#f5f5f5;}
+.notiDots{position:absolute; width:10px; height:10px; border-radius:50%; background:#e2e02b; top:-5px; right:-5px;}
+.notificationMain .dropClick img{width: 30px;height: 30px;display:inline-block;}
+
+.profile{float:right;width:auto;padding:0 15px;margin: 0px 0px 0 0;}
+.topProfile{float:left; width:auto; position:relative}
+.profile .avatar{display:inline-block;max-width: 43px;vertical-align:middle;cursor:pointer;}
+.profile .avatar img{display:block;}
+.profile .userName{display:inline-block;vertical-align:middle;font-size:18px;line-height:22px;color:#fff;padding-left:6px;position:relative;cursor:pointer;padding-right: 20px;}
+.profile .userName:after{content:"";width: 8px;height: 22px;background:url(../images/dots.svg) no-repeat left top;position:absolute;right:0;top:0;bottom:0;margin:auto;}
+
+.profile .dropdown_box{margin-top:0; margin-right:15px;}
+
+.subHead{display:block; float:left; width:100%; background:#fff; border-bottom:1px solid #e1e1e1; padding:20px 0;}
+.btn{display:inline-block;width:auto;border:2px solid #49115f;color:#49115f;font-weight:700;text-transform:uppercase;border-radius:14px;padding:6px 20px;margin:0 5px;font-family: 'gotham_boldregular';font-size: 14px;line-height: 24px;}
+.active.btn{background:#49115f; color:#fff;}
+
+.buttonMain{margin:0 -5px;}
+
+.whiteBox{display:block; float:left; width:100%; background:#fff; margin-top:40px; border:1px solid #e1e1e1;}
+
+.whiteBoxHead{display:block; float:left; width:100%; border-bottom:2px solid #eeecec;}
+.coinList{float:left; width:auto;}
+.coinList ul{list-style:none}
+.coinList ul li{float:left;width:auto;font-size: 20px;line-height: 29px;color:#333333;padding: 10px 20px;-moz-transition:all 0.4s ease-in-out;-ms-transition:all 0.4s ease-in-out;-webkit-transition:all 0.4s ease-in-out;transition:all 0.4s ease-in-out;cursor:pointer;}
+.coinList ul li span{color:#841eab;}
+.coinList ul li.coinTabActive{background:#49115f; color:#fff;}
+.coinList ul li.coinTabActive span{color:#fff;}
+
+.actionMain {float:right}
+.actionMain .dropdown_box{margin-top:0;}
+.actionMain.openBox .actionBtn{background-color:#f1f1f1} 
+.actionBtn{float:right;width:50px;height:100%;text-align:center;padding: 0 15px;cursor:pointer;}
+.actionBtn img{width:10px;height: 26px;display:inline-block;}
+
+.boxInner{float:left; width:100%; padding:20px;}
+
+.chartMain{display:block; width:100%; margin-top:15px;}
+
+.priceBoxes{text-align:center; margin:0 -15px 30px -15px;}
+.priceBox{display:inline-block;min-width: 340px;width:auto;height: 140px;background:#9900ab;border-radius:12px;color:#fff;padding: 34px 15px;text-align:center;margin:0 12px;}
+.priceBox strong{display:block;font-family: 'gotham_boldregular';font-size: 25px;line-height: 40px;margin-bottom:5px;}
+.priceBox span{font-size: 20px;line-height:30px;}
+
+.secTitleMain{float:left; width:auto;}
+.secTitle{float:left;width: 100%;font-size: 30px;line-height: 36px;color:#9900ab;font-family: 'gotham_boldregular';}
+.subTitle{display:block;font-size: 20px;line-height: 30px;float: left;color:#373737;width: 100%;}
+.paging.actionBtn{width:auto;line-height: 22px;font-size: 18px;color:#333333;padding:12px 15px;vertical-align:middle;}
+.paging.actionBtn span{display:inline-block;vertical-align:middle;padding-right: 6px;}
+.paging.actionBtn img{display:inline-block; vertical-align:middle; }
+
+.secBox .secTitleMain{padding: 15px 15px 10px 15px;}
+
+.tableRow{float:left; width:100%;}
+.tableRow li{border-bottom:2px solid #e1e1e1;float:left;width:100%;padding: 5px;}
+.tableRow li:last-child{border-bottom:none;}
+.tableRow li .col-1{display:inline-block;width:300px;padding: 10px;vertical-align:top;}
+.tableRow li .col-2{display:inline-block;padding: 10px;}
+.tableRow li .coinName{font-size: 18px;line-height: 22px;color:#373737;}
+.tableRow li .priceTag{display:block;color:#9900ab;}
+.tableRow li .col-2{font-size: 20px;color:#373737;line-height: 26px;}
+
+.tabList{float:left;width:100%;border-bottom:2px solid #e1e1e1;/* padding-left:30px; */margin-bottom:15px;}
+.tabList li{font-family: 'gotham_boldregular';float:left;padding: 10px;font-size: 22px;line-height:36px;cursor:pointer;position: relative;margin:0 5px;}
+.tabList li:after{content:"";width:0;left:0;right:0;bottom:-1px;height: 4px;background:#841eab;position: absolute;-moz-transition:all 0.4s ease-in-out;-ms-transition:all 0.4s ease-in-out;-webkit-transition:all 0.4s ease-in-out;transition:all 0.4s ease-in-out;margin:auto;}
+.tabList li.tabActive{color:#9900ab;}
+.tabList li.tabActive:after{width:100%;}
+.tabMain{float:left; width:100%; position:relative}
+.tabMain .tabBody{display:none}
+.tabMain .tabBody.tabActive{display:block;}
+
+.tableMain{width:100%; }
+.tableMain tr td{border-bottom:2px solid #e1e1e1;padding: 10px;}
+.tableMain tr:last-child td{border-bottom:none}
+.tableMain tr td:first-child{/* padding-left:30px; */}
+.tableMain tr td p{font-size: 18px;line-height: 24px;color:#373737;}
+.nameField{font-size: 20px;line-height:28px;color:#333333;}
+ .simbole{display:inline-block;width: 50px;height: 50px;background:#9900ab;border-radius:50%;font-size: 22px;font-family: 'gotham_boldregular';color:#fff;line-height: 50px;text-align:center;vertical-align:middle;}
+.table_price{font-size:36px;font-size: 22px;line-height: 28px;display:block;color:#9900ab;}
+.wasPrice{font-size:36px;font-size: 22px;line-height: 28px;display:block;color:#373737;}
+ 
+.barChart{float:left; width:100%; }
+
+.totleRow{float:left;width:100%;background:#ece7ef;font-size: 20px;line-height: 40px;padding:5px 10px;text-align:center;}
+.totleRow .price{color:#9900ab;}
+
+.upArrow{position:relative}
+.upArrow:before{content:"";width:38px; height:51px; position:absolute; top:15px; left:15px; background:url(../images/up-arrow.png) no-repeat left top;}
+.downArrow{position:relative}
+.downArrow:before{content:"";width:38px; height:51px; position:absolute; top:15px; left:15px; background:url(../images/down-arrow.png) no-repeat left top;}
+
+.coinTabBody{display:none}
+.coinTabBody.coinTabActive{display:block;}

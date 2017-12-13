@@ -1,0 +1,66 @@
+{% load i18n staticfiles compress cms_tags sekizai_tags menu_tags %}
+<!DOCTYPE html>
+<html lang="{{ request.LANGUAGE_CODE }}" class="{{ request.LANGUAGE_CODE }}">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>{% block page_title %} {% if page_title %}{{ page_title }}{% endif %}
+        {% page_attribute "page_title" %} {% endblock %}</title>
+    <meta name="description" content="{% block meta_description %}{% endblock %}">
+    <meta name="author" content="{% block meta_author %}{% endblock %}">
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1"/>
+
+    {% block meta %}{% endblock %}
+    <!-- CSS -->
+    {# use the CDN to get bootstrap css. can not be inside compress css block #}
+    {% block cdn_css %}
+    {% endblock %}
+
+    {% compress css %}
+        {% block css %}
+            <link rel="stylesheet" href="{% static "css/bootstrap.min.css" %}"/>
+            <link rel="stylesheet" href="{% static "css/font-awesome.min.css" %}"/>
+            <link rel="stylesheet" href="{% static "css/style.css" %}"/>
+            <link rel="stylesheet" href="{% static "css/respocive.css" %}"/>
+            <link rel="stylesheet" href="{% static "css/toastr.css" %}"/>
+        {% endblock %}
+    {% endcompress %}
+    {% render_block "css" %}
+    {% compress js %}{% endcompress %}
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+          <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.js"></script>
+          <script src="//cdnjs.cloudflare.com/ajax/libs/respond.js/1.3.0/respond.js"></script>
+        <![endif]-->
+</head>
+<body class="{% block body_class %}{% endblock %}" {% block body_attributes %}{% endblock %} >
+{% cms_toolbar %}
+<div class="wrapper">
+
+    {% include 'header.html' %}
+    {% block content %}{% endblock %}
+
+    {% block footer %}
+        <footer class="footMain"><span class="copyText">&copy;</span> 2017 Blocktrade Desk</footer>
+    {% endblock footer %}
+</div>
+    <!-- JavaScript -->
+    <!-- JavaScript at the bottom for fast page loading -->
+    <!-- Grab Google CDN's jQuery, with a protocol relative URL; fall back to local if offline -->
+    {% block cdn_js %}
+    {% endblock cdn_js %}
+    <!-- scripts concatenated and minified via django-compressor -->
+    {% compress js %}
+
+            <script type="text/javascript" src="{% static "js/jquery-1.11.1.js" %}"></script>
+            <script type="text/javascript" src="{% static "js/custom.js" %}"></script>
+            <script type="text/javascript" src="{% static "js/jquery-daf.js" %}"></script>
+            <script type="text/javascript" src="{% static "js/toastr.min.js" %}"></script>
+        {% block js %}
+        {% endblock js %}
+    {% endcompress %}
+    {% render_block "js" %}
+</body>
+</html>
+
