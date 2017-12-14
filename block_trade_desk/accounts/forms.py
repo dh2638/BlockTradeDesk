@@ -97,7 +97,11 @@ class SetPasswordForm(DictErrorMixin, auth_forms.SetPasswordForm):
 
 
 class PasswordResetForm(DictErrorMixin, auth_forms.PasswordResetForm):
-    pass
+    def clean_email(self):
+        email = self.cleaned_data.get('email')
+        if not UserAccount._default_manager.filter(email=email).exists():
+            raise forms.ValidationError(ugettext('This email not exist'))
+        return email
 
 
 class ProfileUpdateForm(DictErrorMixin, forms.ModelForm):

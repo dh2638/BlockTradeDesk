@@ -18,44 +18,52 @@
                 <div class="whiteBoxHead">
                     <div class="pull-right">
                         <div class="actionMain dropdownSlide">
+                        {% if currencies|length > 3 %}
                             <div class="dropClick actionBtn trans">
                                 <img src="{% static 'images/dark-dots.svg' %}" alt=""/>
                             </div>
                             <div class="dropdown_box">
                                 <ul>
-                                    <li><a href="#" title="Test">Test</a></li>
-                                    <li><a href="#" title="Test 02">Test 02</a></li>
+                                    {% for currency in currencies %}
+                                        {% if forloop.counter > 3 %}
+                                        <li><a class="currency-dropdown" data-type="{{ currency.name|lower }}" title="Test">{{ currency.name|title }}</a></li>
+                                        {% endif %}
+                                    {% endfor %}
                                 </ul>
                             </div>
+                        {% endif %}
                         </div>
                     </div>
                     <div class="coinList">
                         <ul>
                             {% for currency in currencies %}
+                                {% if currency.rates_per_hour.all and forloop.counter <= 3  %}
                                 <li {% if forloop.first %}class="coinTabActive"{% endif %}
                                     data-coin="{{ currency.name|lower }}">
                                     <span>{{ currency.name }}</span> {{ currency.rates_per_hour.all|first }}</li>
+                                {% endif %}
                             {% endfor %}
                         </ul>
                     </div>
 
                 </div>
                 {% for currency in currencies %}
-                    <!-- bitcoin -->
                     {% with currency.get_per_month as data %}
-                    <div id="{{ currency.name|lower }}"
-                         class="boxInner {% if forloop.first %}coinTabActive{% endif %} coinTabBody">
-                        <div class="priceBoxes">
-                            <div class="priceBox"><strong>${{ currency.rates_per_hour.all|first }}</strong>
-                                <span>{{ currency.name|upper }} PRICE</span></div>
-                            <div class="priceBox {% if data.is_negative %}downArrow{% else %}upArrow{% endif %}"><strong>$ {{ data.last_rate }}</strong> <span>{{ data.duration }} (USD)</span>
+                            <div id="{{ currency.name|lower }}" data-coin="{{ currency.name|lower }}"
+                                 class="boxInner {% if forloop.first %}coinTabActive{% endif %} coinTabBody">
+                                <div class="priceBoxes">
+                                    <div class="priceBox"><strong>${{ currency.rates_per_hour.all|first }}</strong>
+                                        <span>{{ currency.name|upper }} PRICE</span></div>
+                                    <div class="priceBox {% if data.is_negative %}downArrow{% else %}upArrow{% endif %}">
+                                        <strong>$ {{ data.last_rate }}</strong> <span>{{ data.duration }} (USD)</span>
+                                    </div>
+                                    <div class="priceBox {% if data.is_negative %}downArrow{% else %}upArrow{% endif %}">
+                                        <strong>{{ data.percent }}%</strong> <span>{{ data.duration }} (%)</span></div>
+                                </div>
+                                <div class="chartMain">
+                                    <canvas id="{{ currency.name|lower }}-chart" class="barChart"></canvas>
+                                </div>
                             </div>
-                            <div class="priceBox {% if data.is_negative %}downArrow{% else %}upArrow{% endif %}"><strong>{{ data.percent }}%</strong> <span>{{ data.duration }} (%)</span></div>
-                        </div>
-                        <div class="chartMain">
-                            <canvas id="{{ currency.name|lower }}-chart" class="barChart"></canvas>
-                        </div>
-                    </div>
                     {% endwith %}
                 {% endfor %}
 
@@ -187,7 +195,7 @@
                     },
                     title: {
                         display: true,
-                        text: 'Chart.js Bar Chart'
+                        text: ''
                     }
                 },
                 // The data for our dataset
@@ -210,6 +218,11 @@
                 var id = key + '-chart';
                 chart(labels, data, id);
             });
+            $(document).on('click','.currency-dropdown', function () {
+                var type = $(this).data('type');
+                $('.coinTabActive').removeClass('coinTabActive');
+                $('[data-coin="'+type+'"]').addClass('coinTabActive');
+            })
         })
     </script>
 {% endblock %}

@@ -13,12 +13,12 @@ class Command(BaseCommand):
         for currency in currencies:
             today_rates = currency.rates_per_hour.filter(created__date=currect_date).aggregate(
                 price_avg=Avg('price'), change_avg=Avg('change'))
-
-            kwargs = {
-                'currency': currency,
-                'target_currency': target_currency,
-                'price': today_rates['price_avg'],
-                'change': today_rates['change_avg']
-            }
-            CurrencyPerDayRate.objects.create(**kwargs)
+            if today_rates['price_avg'] and today_rates['change_avg']:
+                kwargs = {
+                    'currency': currency,
+                    'target_currency': target_currency,
+                    'price': today_rates['price_avg'],
+                    'change': today_rates['change_avg']
+                }
+                CurrencyPerDayRate.objects.create(**kwargs)
         self.stdout.write(self.style.SUCCESS('Updated every currency prices in database'))

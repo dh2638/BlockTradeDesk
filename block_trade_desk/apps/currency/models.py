@@ -36,28 +36,25 @@ class Currency(TimeStampedModel):
         time_threshold = timezone.now() - datetime.timedelta(days=30)
         month_rates = self.rates_per_day.filter(created__gte=time_threshold)
         last_rate = month_rates.last()
-        if last_rate.price < self.get_current_rate():
-            percent = (self.get_current_rate() / last_rate.price) % 100
-            is_negative = False
-        else:
-            percent = (last_rate.price / self.get_current_rate()) % 100
-            is_negative = True
+        if last_rate:
+            if last_rate.price < self.get_current_rate():
+                percent = (self.get_current_rate() / last_rate.price) % 100
+                is_negative = False
+            else:
+                percent = (last_rate.price / self.get_current_rate()) % 100
+                is_negative = True
 
-        kwargs = {'rates': month_rates, 'duration': 'since last month', 'last_rate': last_rate.price,
-                  'percent': "%.2f" % percent, 'is_negative': is_negative}
+            kwargs = {'rates': month_rates, 'duration': 'since last month', 'last_rate': last_rate.price,
+                      'percent': "%.2f" % percent, 'is_negative': is_negative}
         # if len(month_rates) != 30:
         #     kwargs['duration'] = "since {0} day(s)".format(len(month_rates))
-        return kwargs
+            return kwargs
 
     def get_per_day(self):
         current_date = timezone.now().date()
         today_rates = self.rates_per_hour.filter(created__date=current_date)
         kwargs = {'rates': today_rates}
         return kwargs
-
-
-
-        # Monthly Graph
 
 
 class CurrencyPerDayRate(TimeStampedModel):
