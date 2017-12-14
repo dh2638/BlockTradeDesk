@@ -25,12 +25,14 @@ class Currency(TimeStampedModel):
     class Meta:
         verbose_name = _('Currency')
         verbose_name_plural = _('Currencies')
+        unique_together = ('name', 'code')
 
     def __unicode__(self):
         return self.name
 
     def get_current_rate(self):
-        return self.rates_per_hour.first().price
+        if self.rates_per_hour.all():
+            return self.rates_per_hour.first().price
 
     def get_per_month(self):
         time_threshold = timezone.now() - datetime.timedelta(days=30)
@@ -46,8 +48,8 @@ class Currency(TimeStampedModel):
 
             kwargs = {'rates': month_rates, 'duration': 'since last month', 'last_rate': last_rate.price,
                       'percent': "%.2f" % percent, 'is_negative': is_negative}
-        # if len(month_rates) != 30:
-        #     kwargs['duration'] = "since {0} day(s)".format(len(month_rates))
+            # if len(month_rates) != 30:
+            #     kwargs['duration'] = "since {0} day(s)".format(len(month_rates))
             return kwargs
 
     def get_per_day(self):
@@ -96,6 +98,7 @@ class UserCurrency(TimeStampedModel):
     class Meta:
         verbose_name = _('User Currency')
         verbose_name_plural = _('User Currencies')
+        unique_together = ('currency', 'user')
 
     def __unicode__(self):
         return "{0}".format(self.amount)
