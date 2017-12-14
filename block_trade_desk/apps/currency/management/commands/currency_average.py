@@ -21,4 +21,4 @@ class Command(BaseCommand):
                     'change': today_rates['change_avg']
                 }
                 CurrencyPerDayRate.objects.create(**kwargs)
-        self.stdout.write(self.style.SUCCESS('Updated every currency prices in database'))
+                self.stdout.write(self.style.SUCCESS('Updated {0} currency prices in database'.format(currency.code)))
