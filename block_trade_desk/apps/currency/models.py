@@ -66,8 +66,8 @@ class CurrencyPerDayRate(TimeStampedModel):
     change = models.DecimalField(max_digits=16, decimal_places=8, default=Decimal("0.0"))
 
     class Meta:
-        verbose_name = _('Currency Rate')
-        verbose_name_plural = _('Currency Rates')
+        verbose_name = _('Currency Per Day Rate')
+        verbose_name_plural = _('Currency Per Day Rates')
         ordering = ['-created']
 
     def __unicode__(self):
@@ -82,8 +82,8 @@ class CurrencyPerHourRate(TimeStampedModel):
     timestamp = models.IntegerField()
 
     class Meta:
-        verbose_name = _('Currency Rate')
-        verbose_name_plural = _('Currency Rates')
+        verbose_name = _('Currency Per Hour Rate')
+        verbose_name_plural = _('Currency Per Hour Rates')
         ordering = ['-created']
 
     def __unicode__(self):
