@@ -17,4 +17,5 @@ def get_template_for_field(field):
 
 @register.simple_tag
 def multiply(first, second):
-    return "%.2f" % (first * second)
+    if first and second:
+        return "%.2f" % (first * second)
