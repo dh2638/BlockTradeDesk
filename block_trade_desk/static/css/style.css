@@ -187,3 +187,4 @@ opacity:1;
 .coinTabBody{display:none}
 .coinTabBody.coinTabActive{display:block;}
 .has-error + .help-block{ float: left;  color: red;}
+.profileMid{display: block; width: 100%; text-align: center; padding: 0 15px;}

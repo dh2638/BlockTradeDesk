@@ -8,9 +8,11 @@ from django.utils.decorators import method_decorator
 from django.utils.translation import ugettext_lazy as _
 from django.views.generic import FormView
 from django.views.generic import TemplateView
+from django.views.generic import UpdateView
 
 from _utils.views import AjaxableResponseMixin, LoginRequiredMixin
 from accounts import forms
+from accounts.models import UserAccount
 
 
 class LoginView(AjaxableResponseMixin, views.LoginView):
@@ -61,16 +63,12 @@ class ProfileView(LoginRequiredMixin, TemplateView):
     template_name = 'accounts/profile.html'
 
 
-class ProfileEditView(AjaxableResponseMixin, LoginRequiredMixin, FormView):
+class ProfileEditView(AjaxableResponseMixin, LoginRequiredMixin, UpdateView):
     template_name = 'accounts/profile_edit.html'
     form_class = forms.ProfileUpdateForm
     success_message = _('Profile updated successfully')
+    success_url = reverse_lazy('dashboard:index')
+    model = UserAccount
 
-    @method_decorator(login_required)
-    def dispatch(self, *args, **kwargs):
-        return super(ProfileEditView, self).dispatch(*args, **kwargs)
-
-    def get_form_kwargs(self):
-        kwargs = super(ProfileEditView, self).get_form_kwargs()
-        kwargs.update({'instance': self.request.user})
-        return kwargs
+    def get_object(self, queryset=None):
+        return self.request.user
