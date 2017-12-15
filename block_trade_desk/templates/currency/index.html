@@ -71,6 +71,8 @@
 
             </div>
             <div class="whiteBox secBox">
+                {% with user.get_total_balance  as balance %}
+
                 <div class="actionMain dropdownSlide">
                     <div class="dropClick paging actionBtn trans"><span>Past 7 days</span> <img
                             src="{% static 'images/dark-dots.svg' %}" alt=""/></div>
@@ -83,9 +85,8 @@
                 </div>
                 <div class="secTitleMain">
                     <div class="secTitle">Your Portfolio</div>
-                    <div class="subTitle">Total Value <strong>$ {{ user.get_total_balance }}</strong></div>
+                    <div class="subTitle">Total Value: <strong>{% if balance %}$ {{ user.get_total_balance }}{% else %}{% trans 'No available' %}{% endif %}</strong></div>
                 </div>
-
                 <ul class="tableRow">
                     {% for currency in user.user_currencies.all %}
                         <li>
@@ -94,8 +95,11 @@
                                     class="priceTag">$ {% multiply currency.amount currency.currency.get_current_rate %}</span>{{ currency.amount }}
                             </div>
                         </li>
+                        {% empty %}
+                         <p class="text-center">{% trans 'No balance available currently' %}</p>
                     {% endfor %}
                 </ul>
+            {% endwith %}
 
             </div>
 
@@ -136,9 +140,13 @@
                                         </tr>
                                     {% endfor %}
                                 {% endif %}
+                                {% empty %}
+                               <p class="text-center">{% trans 'No record found' %}</p>
                             {% endfor %}
                         </table>
+                    {% if transaction_list %}
                         <div class="totleRow">Total Balance <span class="price">$849.495</span></div>
+                    {% endif %}
                     </div>
                     <div id="bought" class="tabBody tableRow">
                         <table class="tableMain" width="100%">
@@ -155,10 +163,13 @@
                                         </tr>
                                     {% endfor %}
                                 {% endif %}
+                                {% empty %}
+                               <p class="text-center">{% trans 'No record found' %}</p>
                             {% endfor %}
-
                         </table>
-                        <div class="totleRow">Total Balance <span class="price">$849.495</span></div>
+                        {% if transaction_list %}
+                            <div class="totleRow">Total Balance <span class="price">$849.495</span></div>
+                        {% endif %}
 
                     </div>
 
