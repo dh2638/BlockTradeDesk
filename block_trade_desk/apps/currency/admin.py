@@ -9,8 +9,16 @@ class UserCurrencyAdmim(admin.ModelAdmin):
     list_display = ('user', 'currency', 'amount')
 
 
+class CurrencyPerHourRateAdmin(admin.ModelAdmin):
+    list_display = ('currency', 'target_currency', 'price', 'created')
+
+
+class CurrencyPerDayRateAdmin(admin.ModelAdmin):
+    list_display = ('currency', 'target_currency', 'price', 'created')
+
+
 admin.site.register(Currency)
 admin.site.register(UserCurrency, UserCurrencyAdmim)
 admin.site.register(Transaction)
-admin.site.register(CurrencyPerDayRate)
-admin.site.register(CurrencyPerHourRate)
+admin.site.register(CurrencyPerDayRate, CurrencyPerDayRateAdmin)
+admin.site.register(CurrencyPerHourRate, CurrencyPerHourRateAdmin)
