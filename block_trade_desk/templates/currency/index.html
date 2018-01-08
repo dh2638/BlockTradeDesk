@@ -200,25 +200,35 @@
             var ctx = document.getElementById(id).getContext('2d');
             var chart = new Chart(ctx, {
                 // The type of chart we want to create
-                type: 'bar',
+                type: 'line',
                 options: {
                     responsive: true,
-                    legend: {
-                        position: 'top',
-                    },
                     title: {
                         display: true,
                         text: ''
+                    },
+                    tooltips:{
+                        mode: 'index',
+                        intersect:false
+                    },
+                    hover:{
+                        mode:'nearest',
+                        intersect:true
                     }
                 },
                 // The data for our dataset
                 data: {
-                    labels: labels,
+                    labels: labels.reverse(),
                     datasets: [{
                         label: id,
                         backgroundColor: '#bb25ba',
-                        borderColor: '',
-                        data: data
+                        borderColor: '#bb25ba',
+                        data: data.reverse(),
+                        pointRadius: 5,
+                        pointHoverRadius: 7,
+                        fill: false,
+                        lineTension: 0,
+                        borderWidth: 2
                     }
                     ]
                 },
