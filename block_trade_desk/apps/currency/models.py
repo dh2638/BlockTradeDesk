@@ -108,6 +108,7 @@ class Transaction(TimeStampedModel):
     user = models.ForeignKey(UserModel, related_name='user_transactions')
     transaction_type = models.CharField(_('Transaction Type'), choices=TRANSACTION_TYPES, max_length=255)
     amount = models.DecimalField(max_digits=16, decimal_places=8, default=Decimal("0.0"))
+    price = models.DecimalField(max_digits=16, decimal_places=8, default=Decimal("0.0"))
     currency = models.ForeignKey(Currency, related_name='currency_transaction')
     message = models.TextField(null=True, blank=True)
 

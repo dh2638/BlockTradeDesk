@@ -42,7 +42,7 @@
     {% block content %}{% endblock %}
 
     {% block footer %}
-        <footer class="footMain"><span class="copyText">&copy;</span> 2017 Blocktrade Desk</footer>
+        <footer class="footMain"><span class="copyText">&copy;</span> {% now 'Y' %} {% trans 'Blocktrade Desk' %}</footer>
     {% endblock footer %}
 </div>
     <!-- JavaScript -->

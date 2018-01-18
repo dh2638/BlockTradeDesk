@@ -1,18 +1,20 @@
+from cms.sitemaps import CMSSitemap
+from django.conf import settings
 from django.conf.urls import *
-from django.conf.urls.i18n import i18n_patterns
 from django.contrib import admin
 from django.contrib.sitemaps.views import sitemap
-from django.conf import settings
 from django.views.generic.base import TemplateView
+from rest_framework.routers import DefaultRouter
+from rest_framework_swagger.views import get_swagger_view
 
-from cms.sitemaps import CMSSitemap
+router = DefaultRouter()
 
 
 def bad(request):
     """ Simulates a server error """
     1 / 0
 
-
+# Website URL
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^bad/$', bad),

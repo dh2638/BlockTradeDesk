@@ -101,4 +101,4 @@ class UserAccount(AbstractBaseUser, PermissionsMixin):
         for user_currency in self.user_currencies.all():
             if user_currency.currency.get_current_rate():
                 balance += user_currency.amount * user_currency.currency.get_current_rate()
-            return "%.2f" % (balance)
+        return "%.2f" % (balance)

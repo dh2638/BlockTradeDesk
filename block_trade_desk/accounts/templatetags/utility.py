@@ -1,4 +1,5 @@
 from django import template
+from django.contrib.humanize.templatetags.humanize import intcomma
 
 from accounts.settings import WIDGET_TO_TEMPLATE_MAP
 
@@ -16,6 +17,6 @@ def get_template_for_field(field):
 
 
 @register.simple_tag
-def multiply(first, second):
+def multiply(first, second, seprator=False):
     if first and second:
-        return "%.2f" % (first * second)
+        return intcomma("%.2f" % (first * second)) if seprator else "%.2f" % (first * second)
