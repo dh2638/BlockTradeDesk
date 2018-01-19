@@ -27,7 +27,7 @@ class DashboardIndexView(LoginRequiredMixin, TemplateView):
             context['currencies'].append(cur)
         context['total_balance'] = user.get_total_balance()
         current_date = timezone.now().date()
-        queryset = user.user_transactions.filter(created__date__gte=current_date - timedelta(days=30))
+        queryset = user.user_transactions.all()#filter(created__date__gte=current_date - timedelta(days=30))
         grouped_data = groupby_queryset_with_fields(queryset, ['transaction_type'])
         transactions = {}
         for data in grouped_data:
