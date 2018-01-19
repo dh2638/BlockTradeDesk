@@ -31,19 +31,22 @@ class Currency(TimeStampedModel):
         return self.name
 
     def get_current_rate(self):
-        if self.rates_per_hour.all():
+        try:
             return self.rates_per_hour.first().price
+        except self.DoesNotExist:
+            pass
 
-    def get_per_month(self):
+    def get_per_month(self, current_rate=None):
+        current_rate = current_rate if current_rate else self.get_current_rate()
         time_threshold = timezone.now() - datetime.timedelta(days=30)
         month_rates = self.rates_per_day.filter(created__gte=time_threshold)
         last_rate = month_rates.last()
         if last_rate:
-            if last_rate.price < self.get_current_rate():
-                percent = (self.get_current_rate() / last_rate.price) % 100
+            if last_rate.price < current_rate:
+                percent = (current_rate / last_rate.price) % 100
                 is_negative = False
             else:
-                percent = (last_rate.price / self.get_current_rate()) % 100
+                percent = (last_rate.price / current_rate) % 100
                 is_negative = True
 
             kwargs = {'rates': month_rates, 'duration': 'since last month', 'last_rate': last_rate.price,

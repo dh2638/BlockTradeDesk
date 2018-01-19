@@ -210,8 +210,6 @@ INSTALLED_APPS = (
     'compressor',
     'core',
     'django_extensions',
-    'rest_framework',
-    'rest_framework_swagger',
 
 )
 
@@ -436,19 +434,3 @@ AUTH_USER_MODEL = 'accounts.UserAccount'
 LOGOUT_REDIRECT_URL = '/'
 LOGIN_URL = '/'
 LOGIN_REDIRECT_URL = '/dashboard/'
-
-REST_FRAMEWORK = {
-    'PAGE_SIZE': int(os.getenv('DJANGO_PAGINATION_LIMIT', 1)),
-    'DATETIME_FORMAT': '%Y-%m-%dT%H:%M:%S%z',
-    'DEFAULT_RENDERER_CLASSES': (
-        'rest_framework.renderers.JSONRenderer',
-        'rest_framework.renderers.BrowsableAPIRenderer',
-    ),
-    'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.IsAuthenticated',
-    ],
-    'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework.authentication.SessionAuthentication',
-        'rest_framework.authentication.TokenAuthentication',
-    )
-}

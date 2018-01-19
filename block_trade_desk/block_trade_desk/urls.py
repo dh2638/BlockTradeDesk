@@ -15,7 +15,10 @@ def bad(request):
     1 / 0
 
 # Website URL
-urlpatterns = [
+import debug_toolbar
+
+urlpatterns = [url(r'^__debug__/', include(debug_toolbar.urls))]
+urlpatterns += [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^bad/$', bad),
     url(r'^dashboard/', include('apps.currency.urls', namespace='dashboard')),
@@ -38,6 +41,4 @@ if settings.DEBUG:
 
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
-    import debug_toolbar
 
-    urlpatterns += [url(r'^__debug__/', include(debug_toolbar.urls))]

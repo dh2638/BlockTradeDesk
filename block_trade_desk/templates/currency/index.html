@@ -7,7 +7,8 @@
             <div class="buttonMain pull-left"><a class="btn trans" href="#" title="MANAGE YOUR DIGITAL CURRENCY">
                 {% trans "MANAGE YOUR DIGITAL CURRENCY" %}</a></div>
             <div class="buttonMain pull-right">
-                <a class="btn active trans" href="{% url 'dashboard:index' %}" title="Dashboard">{% trans 'Dashboard' %}</a> <a
+                <a class="btn active trans" href="{% url 'dashboard:index' %}"
+                   title="Dashboard">{% trans 'Dashboard' %}</a> <a
                     class="btn trans" href="#" title="Settings">{% trans 'Settings' %}</a></div>
         </div>
     </div>
@@ -27,6 +28,7 @@
                                         {% for currency in currencies %}
                                             {% if forloop.counter > 3 %}
                                                 <li><a class="currency-dropdown" data-type="{{ currency.name|lower }}"
+                                                       data-code="{{ currency.code }}"
                                                        title="Test">{{ currency.name|title }}</a></li>
                                             {% endif %}
                                         {% endfor %}
@@ -38,11 +40,11 @@
                     <div class="coinList">
                         <ul>
                             {% for currency in currencies %}
-                                {% if currency.rates_per_hour.all and forloop.counter <= 3 %}
-                                    <li {% if forloop.first %}class="coinTabActive"{% endif %}
-                                        data-coin="{{ currency.name|lower }}">
-                                        <span>{{ currency.name }}</span> {{ currency.rates_per_hour.all|first|intcomma }}
-                                    </li>
+                                {% if forloop.counter <= 3 and currency.current_rate %}
+                                            <li {% if forloop.first %}class="coinTabActive"{% endif %}
+                                                data-coin="{{ currency.name|lower }}">
+                                                <span>{{ currency.name }}</span> {{ currency.current_rate|intcomma }}
+                                            </li>
                                 {% endif %}
                             {% endfor %}
                         </ul>
@@ -53,7 +55,7 @@
                         <div id="{{ currency.name|lower }}" data-coin="{{ currency.name|lower }}"
                              class="boxInner {% if forloop.first %}coinTabActive{% endif %} coinTabBody">
                             <div class="priceBoxes">
-                                <div class="priceBox"><strong>${{ currency.rates_per_hour.all|first|intcomma }}</strong>
+                                <div class="priceBox"><strong>${{ currency.current_rate|intcomma }}</strong>
                                     <span>{{ currency.name|upper }} PRICE</span></div>
                                 <div class="priceBox {% if data.is_negative %}downArrow{% else %}upArrow{% endif %}">
                                     <strong>$ {{ data.last_rate|intcomma }}</strong>
@@ -63,7 +65,7 @@
                                     <strong>{{ data.percent }}%</strong> <span>{{ data.duration }} (%)</span></div>
                             </div>
                             <div class="chartMain">
-                                <canvas id="{{ currency.name|lower }}-chart" class="barChart"></canvas>
+                                <canvas id="{{ currency.name }}-chart" class="barChart"></canvas>
                             </div>
                         </div>
                     {% endwith %}
@@ -73,32 +75,32 @@
             </div>
             <div class="whiteBox secBox">
 
-                    <div class="actionMain dropdownSlide">
-                        <div class="dropClick paging actionBtn trans"><span>{% trans 'Past 7 days' %}</span> <img
-                                src="{% static 'images/dark-dots.svg' %}" alt=""/></div>
-                        <div class="dropdown_box">
-                            <ul>
-                                <li><a href="#" title="Past 30 days">{% trans 'Past 30 days' %}</a></li>
-                            </ul>
-                        </div>
+                <div class="actionMain dropdownSlide">
+                    <div class="dropClick paging actionBtn trans"><span>{% trans 'Past 7 days' %}</span> <img
+                            src="{% static 'images/dark-dots.svg' %}" alt=""/></div>
+                    <div class="dropdown_box">
+                        <ul>
+                            <li><a href="#" title="Past 30 days">{% trans 'Past 30 days' %}</a></li>
+                        </ul>
                     </div>
-                    <div class="secTitleMain">
-                        <div class="secTitle">{% trans 'Your Portfolio' %}</div>
-                        <div class="subTitle">{% trans 'Total Value' %}: <strong>{% if total_balance %}$
-                            {{ total_balance|intcomma }}{% else %}{% trans 'No available' %}{% endif %}</strong></div>
-                    </div>
-                    <ul class="tableRow">
-                        {% for currency in user.user_currencies.all %}
-                            <li>
-                                <div class="col-1 coinName">{{ currency.currency }}</div>
-                                <div class="col-2"><span
-                                        class="priceTag">$ {% multiply currency.amount currency.currency.get_current_rate 1 %}</span>{{ currency.amount }}
-                                </div>
-                            </li>
-                            {% empty %}
-                            <p class="text-center">{% trans 'No balance available currently' %}</p>
-                        {% endfor %}
-                    </ul>
+                </div>
+                <div class="secTitleMain">
+                    <div class="secTitle">{% trans 'Your Portfolio' %}</div>
+                    <div class="subTitle">{% trans 'Total Value' %}: <strong>{% if total_balance %}$
+                        {{ total_balance|intcomma }}{% else %}{% trans 'No available' %}{% endif %}</strong></div>
+                </div>
+                <ul class="tableRow">
+                    {% for currency in user.user_currencies.all %}
+                        <li>
+                            <div class="col-1 coinName">{{ currency.currency }}</div>
+                            <div class="col-2"><span
+                                    class="priceTag">$ {% multiply currency.amount currency.currency.get_current_rate 1 %}</span>{{ currency.amount }}
+                            </div>
+                        </li>
+                        {% empty %}
+                        <p class="text-center">{% trans 'No balance available currently' %}</p>
+                    {% endfor %}
+                </ul>
             </div>
             <div class="whiteBox secBox">
                 <div class="actionMain dropdownSlide">
@@ -145,7 +147,8 @@
                             {% for data in transactions.bought %}
                                 <tr>
                                     <td width="150px" valign="middle" class="nameField">{{ data.created }}</td>
-                                    <td width="100px" valign="middle"><span class="simbole">{{ data.currency.code }}</span></td>
+                                    <td width="100px" valign="middle"><span
+                                            class="simbole">{{ data.currency.code }}</span></td>
                                     <td width="350px" valign="middle"><p>{{ data.message }}</p></td>
                                     <td valign="middle"><span class="table_price">{{ data.amount }}</span>
                                         <span class="wasPrice">-$ {{ data.price|intcomma }}</span>
@@ -171,16 +174,37 @@
 {% block js %}
     <script type="text/javascript" src="{% static "js/Chart.min.js" %}"></script>
     <script>
-        var graph = {
-            {% for currency in currencies %}
-                '{{ currency.name|lower }}': {
-                    {% with currency.get_per_month as data %}
-                        'labels': [{% for rate in data.rates %}'{{ rate.created.date }}',{% endfor %}],
-                        'data': [{% for rate in data.rates %}{{ rate.price }},{% endfor %}]
-                    {% endwith %}
-                },
-            {% endfor %}
-        };
+        {#        var graph = {#}
+        {#            {% for currency in currencies %}#}
+        {#                '{{ currency.name|lower }}': {#}
+        {#                    {% with currency.get_per_month as data %}#}
+        {#                        'labels': [{% for rate in data.rates %}'{{ rate.created.date }}',{% endfor %}],#}
+        {#                        'data': [{% for rate in data.rates %}{{ rate.price }},{% endfor %}]#}
+        {#                    {% endwith %}#}
+        {#                },#}
+        {#            {% endfor %}#}
+        {#        };#}
+        function get_graph_data(currency_code, currency_name) {
+            $.ajax({
+                url: '{% url 'dashboard:currency_data' %}?currency_code=' + currency_code,
+                type: 'get',
+                cache: false,
+                contentType: false,
+                processData: false
+            })
+                .done(function (payload) {
+                    console.log(payload);
+
+                    var labels = payload['labels'];
+                    var data = payload['data'];
+                    var id = currency_name + '-chart';
+                    chart(labels, data, id);
+
+                })
+                .fail(function (response) {
+                    console.log(response)
+                });
+        }
         function chart(labels, data, id) {
             var ctx = document.getElementById(id).getContext('2d');
             var chart = new Chart(ctx, {
@@ -216,21 +240,24 @@
                         borderWidth: 2
                     }
                     ]
-                },
+                }
             });
         }
+        $(document).on('click', '.currency-dropdown', function () {
+            var type = $(this).data('type');
+            var code = $(this).data('code');
+            $('.coinTabActive').removeClass('coinTabActive');
+            $('[data-coin="' + type + '"]').addClass('coinTabActive');
+
+        });
         $(document).ready(function () {
-            Object.keys(graph).forEach(function (key) {
-                var labels = graph[key].labels;
-                var data = graph[key].data;
-                var id = key + '-chart';
-                chart(labels, data, id);
-            });
-            $(document).on('click', '.currency-dropdown', function () {
-                var type = $(this).data('type');
-                $('.coinTabActive').removeClass('coinTabActive');
-                $('[data-coin="' + type + '"]').addClass('coinTabActive');
-            })
+            var currencies = {
+                'code': [{% for currency  in currencies %}"{{ currency.code }}",{% endfor %}],
+                'name': [{% for currency  in currencies %}"{{ currency.name }}",{% endfor %}]
+            };
+            for (var i = 0; i < currencies['code'].length; i++) {
+                get_graph_data(currencies['code'][i], currencies['name'][i])
+            }
         })
     </script>
 {% endblock %}
