@@ -1,23 +1,23 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from datetime import datetime
 from datetime import timedelta
 
 from django.forms import model_to_dict
 from django.http import JsonResponse
 from django.template.loader import render_to_string
+from django.utils.timezone import localtime, now
 from django.utils.translation import ugettext
 from django.views.generic import TemplateView
 
 from _utils.views import LoginRequiredMixin, groupby_queryset_with_fields
 from .models import Currency
 
-current_date = datetime.now().date()
+current_date = localtime(now())
 
 
 def get_transactions(queryset, start_date, end_date=current_date):
-    queryset = queryset.filter(created__date__gte=start_date, created__date__lte=end_date)
+    queryset = queryset.filter(created__gte=start_date, created__lte=end_date)
     grouped_data = groupby_queryset_with_fields(queryset, ['transaction_type'])
     transactions = {}
     for data in grouped_data:
