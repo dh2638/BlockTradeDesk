@@ -1,0 +1,46 @@
+{% load humanize i18n %}
+<div class="tabMain">
+    <div id="Sold" class="tabBody tableRow tabActive fadeIndiv">
+        <table class="tableMain" width="100%">
+            {% for data in transaction.sold %}
+                <tr>
+                    <td width="150px" valign="middle" class="nameField">{{ data.created }}</td>
+                    <td width="100px" valign="middle"><span
+                            class="simbole">{{ data.currency.code }}</span></td>
+                    <td width="350px" valign="middle"><p>{{ data.message }}</p></td>
+                    <td valign="middle"><span class="table_price">{{ data.amount }}</span>
+                        <span class="wasPrice">-$ {{ data.price|intcomma }}</span>
+                    </td>
+                </tr>
+                {% empty %}
+                <p class="text-center">{% trans 'No record found' %}</p>
+            {% endfor %}
+        </table>
+        {% if transaction.sold %}
+            <div class="totleRow">{% trans 'Total Balance' %} <span
+                    class="price">{{ total_balance|intcomma }}</span></div>
+        {% endif %}
+    </div>
+    <div id="bought" class="tabBody tableRow">
+        <table class="tableMain" width="100%">
+            {% for data in transaction.bought %}
+                <tr>
+                    <td width="150px" valign="middle" class="nameField">{{ data.created }}</td>
+                    <td width="100px" valign="middle"><span
+                            class="simbole">{{ data.currency.code }}</span></td>
+                    <td width="350px" valign="middle"><p>{{ data.message }}</p></td>
+                    <td valign="middle"><span class="table_price">{{ data.amount }}</span>
+                        <span class="wasPrice">-$ {{ data.price|intcomma }}</span>
+                    </td>
+                </tr>
+                {% empty %}
+                <p class="text-center">{% trans 'No record found' %}</p>
+            {% endfor %}
+        </table>
+        {% if transaction.bought %}
+            <div class="totleRow">{% trans 'Total Balance' %} <span
+                    class="price">{{ total_balance|intcomma }}</span></div>
+        {% endif %}
+    </div>
+
+</div>

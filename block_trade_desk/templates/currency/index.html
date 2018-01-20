@@ -104,11 +104,11 @@
             </div>
             <div class="whiteBox secBox">
                 <div class="actionMain dropdownSlide">
-                    <div class="dropClick paging actionBtn trans"><span>{% trans 'Past 7 days' %}</span> <img
+                    <div class="dropClick paging actionBtn trans" ><span data-days="7" class="transation-days">{% trans 'Past 7 days' %}</span> <img
                             src="{% static 'images/dark-dots.svg' %}" alt=""/></div>
                     <div class="dropdown_box">
                         <ul>
-                            <li><a href="#" title="Past 30 days">{% trans 'Past 30 days' %}</a></li>
+                            <li><a data-days="30" class="transation-days" title="Past 30 days">{% trans 'Past 30 days' %}</a></li>
                         </ul>
                     </div>
                 </div>
@@ -120,10 +120,11 @@
                     <li class="tabActive" data-type="Sold">{% trans 'Sold' %}</li>
                     <li data-type="bought">{% trans 'Bought' %}</li>
                 </ul>
+                <div id="transations">
                 <div class="tabMain">
                     <div id="Sold" class="tabBody tableRow tabActive fadeIndiv">
                         <table class="tableMain" width="100%">
-                            {% for data in transactions.sold %}
+                            {% for data in transaction.sold %}
                                 <tr>
                                     <td width="150px" valign="middle" class="nameField">{{ data.created }}</td>
                                     <td width="100px" valign="middle"><span
@@ -137,14 +138,14 @@
                                 <p class="text-center">{% trans 'No record found' %}</p>
                             {% endfor %}
                         </table>
-                        {% if transactions.sold %}
+                        {% if transaction.sold %}
                             <div class="totleRow">{% trans 'Total Balance' %} <span
                                     class="price">{{ total_balance|intcomma }}</span></div>
                         {% endif %}
                     </div>
                     <div id="bought" class="tabBody tableRow">
                         <table class="tableMain" width="100%">
-                            {% for data in transactions.bought %}
+                            {% for data in transaction.bought %}
                                 <tr>
                                     <td width="150px" valign="middle" class="nameField">{{ data.created }}</td>
                                     <td width="100px" valign="middle"><span
@@ -158,15 +159,14 @@
                                 <p class="text-center">{% trans 'No record found' %}</p>
                             {% endfor %}
                         </table>
-                        {% if transactions.bought %}
+                        {% if transaction.bought %}
                             <div class="totleRow">{% trans 'Total Balance' %} <span
                                     class="price">{{ total_balance|intcomma }}</span></div>
                         {% endif %}
-
                     </div>
 
                 </div>
-
+                </div>
             </div>
         </div>
     </section>
@@ -174,16 +174,6 @@
 {% block js %}
     <script type="text/javascript" src="{% static "js/Chart.min.js" %}"></script>
     <script>
-        {#        var graph = {#}
-        {#            {% for currency in currencies %}#}
-        {#                '{{ currency.name|lower }}': {#}
-        {#                    {% with currency.get_per_month as data %}#}
-        {#                        'labels': [{% for rate in data.rates %}'{{ rate.created.date }}',{% endfor %}],#}
-        {#                        'data': [{% for rate in data.rates %}{{ rate.price }},{% endfor %}]#}
-        {#                    {% endwith %}#}
-        {#                },#}
-        {#            {% endfor %}#}
-        {#        };#}
         function get_graph_data(currency_code, currency_name) {
             $.ajax({
                 url: '{% url 'dashboard:currency_data' %}?currency_code=' + currency_code,
@@ -191,8 +181,7 @@
                 cache: false,
                 contentType: false,
                 processData: false
-            })
-                .done(function (payload) {
+            }).done(function (payload) {
                     console.log(payload);
 
                     var labels = payload['labels'];
@@ -200,10 +189,8 @@
                     var id = currency_name + '-chart';
                     chart(labels, data, id);
 
-                })
-                .fail(function (response) {
-                    console.log(response)
                 });
+
         }
         function chart(labels, data, id) {
             var ctx = document.getElementById(id).getContext('2d');
@@ -249,6 +236,19 @@
             $('.coinTabActive').removeClass('coinTabActive');
             $('[data-coin="' + type + '"]').addClass('coinTabActive');
 
+        });
+        $(document).on('click', '.transation-days', function () {
+            var days = $(this).data('days')
+            $.ajax({
+                url: '{% url 'dashboard:transation_data' %}?days=' + days,
+                type: 'get',
+                cache: false,
+                contentType: false,
+                processData: false
+            }).done(function (payload) {
+                console.log(payload);
+                $('#transations').html(payload['payload'])
+            });
         });
         $(document).ready(function () {
             var currencies = {

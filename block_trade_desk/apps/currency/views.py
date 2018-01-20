@@ -1,15 +1,29 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
+from datetime import datetime
 from datetime import timedelta
 
 from django.forms import model_to_dict
 from django.http import JsonResponse
-from django.utils import timezone
+from django.template.loader import render_to_string
+from django.utils.translation import ugettext
 from django.views.generic import TemplateView
 
 from _utils.views import LoginRequiredMixin, groupby_queryset_with_fields
 from .models import Currency
+
+current_date = datetime.now().date()
+
+
+def get_transactions(queryset, start_date, end_date=current_date):
+    queryset = queryset.filter(created__date__gte=start_date, created__date__lte=end_date)
+    grouped_data = groupby_queryset_with_fields(queryset, ['transaction_type'])
+    transactions = {}
+    for data in grouped_data:
+        for row in grouped_data[data]:
+            transactions[row['grouper'].lower()] = row['list']
+    return transactions
 
 
 class DashboardIndexView(LoginRequiredMixin, TemplateView):
@@ -26,14 +40,7 @@ class DashboardIndexView(LoginRequiredMixin, TemplateView):
             cur.update({'get_per_month': currency.get_per_month(cur['current_rate'])})
             context['currencies'].append(cur)
         context['total_balance'] = user.get_total_balance()
-        current_date = timezone.now().date()
-        queryset = user.user_transactions.all()#filter(created__date__gte=current_date - timedelta(days=30))
-        grouped_data = groupby_queryset_with_fields(queryset, ['transaction_type'])
-        transactions = {}
-        for data in grouped_data:
-            for row in grouped_data[data]:
-                transactions[row['grouper'].lower()] = row['list']
-        context['transactions'] = transactions
+        context['transaction'] = get_transactions(user.user_transactions.all(), current_date - timedelta(days=7))
         return context
 
 
@@ -54,3 +61,19 @@ class CurrencyDataView(TemplateView):
         except Currency.DoesNotExist:
             pass
         return context
+
+
+class TransactionDataView(LoginRequiredMixin, TemplateView):
+    template_name = 'ajax/transaction.html'
+
+    def get(self, request, *args, **kwargs):
+        response = super(TransactionDataView, self).get(request, *args, **kwargs)
+        user = request.user
+        days = int(request.GET.get('days', 0))
+        total_balance = user.get_total_balance()
+        if not days:
+            return JsonResponse({'error': ugettext('No. of days required')}, status=400)
+        transaction = get_transactions(user.user_transactions.all(), current_date - timedelta(days=days))
+        payload = render_to_string(self.template_name, context={'transaction': transaction,
+                                                                'total_balance': total_balance})
+        return JsonResponse({'payload': payload}, status=200)
