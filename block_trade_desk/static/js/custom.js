@@ -34,7 +34,7 @@ $(document).ready(function () {
     });
 
     /* submenu toggle */
-    $('.dropClick').click(function () {
+    $(document).on('click','.dropClick', function () {
         if (!$(this).parent('.dropdownSlide').hasClass('openBox')) {
             $('.dropdownSlide').removeClass('openBox');
             $('.dropClick').removeClass('active');

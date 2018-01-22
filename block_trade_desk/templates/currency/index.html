@@ -102,7 +102,7 @@
                     {% endfor %}
                 </ul>
             </div>
-            <div class="whiteBox secBox">
+            <div class="whiteBox secBox" id="transations">
                 <div class="actionMain dropdownSlide">
                     <div class="dropClick paging actionBtn trans" ><span data-days="7" class="transation-days">{% trans 'Past 7 days' %}</span> <img
                             src="{% static 'images/dark-dots.svg' %}" alt=""/></div>
@@ -120,7 +120,6 @@
                     <li class="tabActive" data-type="Sold">{% trans 'Sold' %}</li>
                     <li data-type="bought">{% trans 'Bought' %}</li>
                 </ul>
-                <div id="transations">
                 <div class="tabMain">
                     <div id="Sold" class="tabBody tableRow tabActive fadeIndiv">
                         <table class="tableMain" width="100%">
@@ -166,7 +165,7 @@
                     </div>
 
                 </div>
-                </div>
+
             </div>
         </div>
     </section>
@@ -246,7 +245,6 @@
                 contentType: false,
                 processData: false
             }).done(function (payload) {
-                console.log(payload);
                 $('#transations').html(payload['payload'])
             });
         });

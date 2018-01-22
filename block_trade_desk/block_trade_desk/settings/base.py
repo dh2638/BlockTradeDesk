@@ -434,3 +434,6 @@ AUTH_USER_MODEL = 'accounts.UserAccount'
 LOGOUT_REDIRECT_URL = '/'
 LOGIN_URL = '/'
 LOGIN_REDIRECT_URL = '/dashboard/'
+
+# NO. OF DAYS GRAPH
+GRAPH_DAYS = [7, 30]

@@ -3,6 +3,8 @@ from __future__ import unicode_literals
 
 from datetime import timedelta
 
+import copy
+from django.conf import settings
 from django.forms import model_to_dict
 from django.http import JsonResponse
 from django.template.loader import render_to_string
@@ -73,7 +75,12 @@ class TransactionDataView(LoginRequiredMixin, TemplateView):
         total_balance = user.get_total_balance()
         if not days:
             return JsonResponse({'error': ugettext('No. of days required')}, status=400)
+
+        graph_days = copy.copy(settings.GRAPH_DAYS)
+        graph_days.remove(days)
         transaction = get_transactions(user.user_transactions.all(), current_date - timedelta(days=days))
         payload = render_to_string(self.template_name, context={'transaction': transaction,
-                                                                'total_balance': total_balance})
+                                                                'total_balance': total_balance,
+                                                                'days':days,
+                                                                'remaining_days':graph_days})
         return JsonResponse({'payload': payload}, status=200)

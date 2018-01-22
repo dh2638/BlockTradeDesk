@@ -1,4 +1,24 @@
-{% load humanize i18n %}
+{% load humanize i18n staticfiles %}
+
+<div class="actionMain dropdownSlide">
+    <div class="dropClick paging actionBtn trans"><span data-days="{{ days }}"
+                                                        class="transation-days">{% trans 'Past' %} {{ days }} {% trans 'days' %}</span> <img src="{% static 'images/dark-dots.svg' %}" alt=""/></div>
+    <div class="dropdown_box">
+        <ul>
+            {% for day in remaining_days %}
+                <li><a data-days="{{ day }}" class="transation-days" title="Past {{ day }} days">{% trans 'Past' %} {{ day }} {% trans 'days' %}</a></li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+<div class="secTitleMain">
+    <div class="secTitle">{% trans 'Recent Transaction' %}</div>
+</div>
+
+<ul class="tabList">
+    <li class="tabActive" data-type="Sold">{% trans 'Sold' %}</li>
+    <li data-type="bought">{% trans 'Bought' %}</li>
+</ul>
 <div class="tabMain">
     <div id="Sold" class="tabBody tableRow tabActive fadeIndiv">
         <table class="tableMain" width="100%">
@@ -44,3 +64,5 @@
     </div>
 
 </div>
+
+
