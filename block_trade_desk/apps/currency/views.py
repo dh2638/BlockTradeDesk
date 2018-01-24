@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
+import copy
 from datetime import timedelta
 
-import copy
 from django.conf import settings
 from django.forms import model_to_dict
 from django.http import JsonResponse
@@ -15,10 +15,10 @@ from django.views.generic import TemplateView
 from _utils.views import LoginRequiredMixin, groupby_queryset_with_fields
 from .models import Currency
 
-current_date = localtime(now())
 
-
-def get_transactions(queryset, start_date, end_date=current_date):
+def get_transactions(queryset, start_date, end_date=None):
+    if not end_date:
+        end_date = localtime(now()).date() + timedelta(days=1)
     queryset = queryset.filter(created__gte=start_date, created__lte=end_date)
     grouped_data = groupby_queryset_with_fields(queryset, ['transaction_type'])
     transactions = {}
@@ -42,6 +42,7 @@ class DashboardIndexView(LoginRequiredMixin, TemplateView):
             cur.update({'get_per_month': currency.get_per_month(cur['current_rate'])})
             context['currencies'].append(cur)
         context['total_balance'] = user.get_total_balance()
+        current_date = localtime(now())
         context['transaction'] = get_transactions(user.user_transactions.all(), current_date - timedelta(days=7))
         return context
 
@@ -81,6 +82,6 @@ class TransactionDataView(LoginRequiredMixin, TemplateView):
         transaction = get_transactions(user.user_transactions.all(), current_date - timedelta(days=days))
         payload = render_to_string(self.template_name, context={'transaction': transaction,
                                                                 'total_balance': total_balance,
-                                                                'days':days,
-                                                                'remaining_days':graph_days})
+                                                                'days': days,
+                                                                'remaining_days': graph_days})
         return JsonResponse({'payload': payload}, status=200)
