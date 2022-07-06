@@ -26,7 +26,7 @@ djangocms-inherit==0.2.1
 djangocms-style==2.0.1
 djangocms-text-ckeditor==3.4.0
 easy-thumbnails==2.5
-html5lib==0.9999999
+html5lib==0.999999999
 idna==2.6
 olefile==0.44
 packaging==16.8
